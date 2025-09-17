@@ -7,9 +7,9 @@ function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
 
   const navigateToLinks = [
-    { name: "Home", path: "/" },
-    { name: "About", path: "/about" },
-    { name: "Contact", path: "/contact" },
+    { name: "Dashboard", path: "/" },
+    { name: "Submit Complaint", path: "/about" },
+    { name: "My Complaints", path: "/contact" },
   ];
 
   return (
