@@ -1,5 +1,6 @@
 import LoginForm from "./Form/LoginForm";
 import Navbar from "./Navbar/Navbar";
-import SignUpForm from "./Form/SognUp";
+import SignUpForm from "./Form/SignUpForm";
+import ComplaintForm from "./ComplaintForm/ComplaintForm";
 
-export {LoginForm,Navbar,SignUpForm}
+export {LoginForm,Navbar,SignUpForm,ComplaintForm}

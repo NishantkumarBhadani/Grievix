@@ -38,7 +38,7 @@ const registerUser = asyncHandler(async (req, res) => {
     email,
     phone,
     password,
-    role,
+    role:role || "user"
   });
 
   //creates user for returing purpose removing the password

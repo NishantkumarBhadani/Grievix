@@ -1,7 +1,9 @@
 import Navbar from "./Components/Navbar/Navbar"
 import { createBrowserRouter,RouterProvider } from "react-router-dom"
 import Layout from "./Layout"
-import { LoginForm,SignUpForm } from "./Components"
+import { LoginForm,SignUpForm,ComplaintForm } from "./Components"
+import {Provider} from 'react-redux'
+import store from "./redux/app/store"
 
 
 
@@ -18,14 +20,18 @@ function App() {
         {
           path:"signUp",
           element:<SignUpForm/>
+        },
+        {
+          path:"complaintForm",
+          element:<ComplaintForm/>
         }
       ]
     }
   ])
   return (
-    <>
+    <Provider store={store}>
       <RouterProvider router={router}/>
-    </>
+    </Provider>
   )
 }
 

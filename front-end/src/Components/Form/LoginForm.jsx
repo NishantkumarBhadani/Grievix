@@ -1,11 +1,58 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
+import API_BASE_URL from "../../config/api.js";
+import { useDispatch, useSelector } from "react-redux";
+import { setToken } from "../../redux/Features/authSlice.js";
+import { setAdmin } from "../../redux/Features/adminSlice.js";
 
 function LoginForm() {
-  const handleSubmit = (e) => {
+  const [formdata, setFormData] = useState({
+    email: "",
+    password: "",
+  });
+  const [isLoading, setIsLoading] = useState(false);
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  //Checking for the tokens
+  const token = useSelector((state) => state.auth.token);
+  console.log("Redex user token:", token);
+  const tokenAdmin = useSelector((state) => state.admin.token);
+  console.log("Redex adminuser token:", tokenAdmin);
+
+  const handleChange = (e) => {
+    setFormData({ ...formdata, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // TODO: Add login logic here
-    console.log("Login submitted");
+    setIsLoading(true);
+    try {
+      const res = await axios.post(`${API_BASE_URL}/users/login`, formdata, {
+        withCredentials: true,
+      });
+
+      setFormData({ email: "", password: "" });
+
+      //Setting the token in redux
+      if (res.data.success) {
+        dispatch(setToken(true));
+
+        const user = res.data.data.user; // 👈 ye sahi path hai
+        if (user && user.role.toLowerCase() === "admin") {
+          dispatch(setAdmin(true));
+        }
+
+        navigate("/complaintForm");
+      }
+
+      console.log("Login response:", res.data);
+    } catch (error) {
+      console.log("Login Failed", error.response?.data || error.message);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -28,6 +75,8 @@ function LoginForm() {
               type="email"
               id="email"
               name="email"
+              value={formdata.email}
+              onChange={handleChange}
               placeholder="Enter your email"
               className="mt-1 w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-emerald-500 focus:border-emerald-500"
               required
@@ -46,6 +95,8 @@ function LoginForm() {
               type="password"
               id="password"
               name="password"
+              value={formdata.password}
+              onChange={handleChange}
               placeholder="Enter your password"
               className="mt-1 w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-emerald-500 focus:border-emerald-500"
               required
@@ -55,9 +106,10 @@ function LoginForm() {
           {/* Submit button */}
           <button
             type="submit"
+            disabled={isLoading}
             className="w-full bg-emerald-500 text-white py-2 rounded-lg font-semibold hover:bg-emerald-600 transition-colors"
           >
-            Login
+            {isLoading ? "Logging in..." : "Login"}
           </button>
         </form>
 
