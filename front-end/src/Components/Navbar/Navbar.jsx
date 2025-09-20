@@ -6,6 +6,7 @@ import axios from "axios";
 import API_BASE_URL from "../../config/api.js";
 import { setToken } from "../../redux/Features/authSlice.js";
 import { setAdmin } from "../../redux/Features/adminSlice.js";
+import { useEffect } from "react";
 
 function Navbar() {
   const location = useLocation();

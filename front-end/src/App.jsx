@@ -3,7 +3,8 @@ import { createBrowserRouter,RouterProvider } from "react-router-dom"
 import Layout from "./Layout"
 import { LoginForm,SignUpForm,ComplaintForm } from "./Components"
 import {Provider} from 'react-redux'
-import store from "./redux/app/store"
+import { PersistGate } from "redux-persist/integration/react"
+import { store,persistor } from "./redux/app/store.js"
 
 
 
@@ -30,7 +31,9 @@ function App() {
   ])
   return (
     <Provider store={store}>
-      <RouterProvider router={router}/>
+      <PersistGate loading={null} persistor={persistor}>
+        <RouterProvider router={router}/>
+      </PersistGate>
     </Provider>
   )
 }

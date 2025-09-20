@@ -1,107 +1,126 @@
 import React, { useState } from "react";
+import axios from "axios";
+import API_BASE_URL from "../../config/api.js"
+import { useSelector} from "react-redux";
+import {useNavigate} from 'react-router-dom'
 
-const ComplaintForm = () => {
-  const [submissionType, setSubmissionType] = useState("Public");
+function ComplaintForm() {
+  const [submissionType, setSubmissionType] = useState("public");
   const [subject, setSubject] = useState("");
   const [description, setDescription] = useState("");
   const [file, setFile] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
 
-  const handleFileChange = (e) => {
-    setFile(e.target.files[0]);
-  };
+  const token = useSelector((state) => state.auth.token);
 
-  const handleSubmit = (e) => {
+  const navigate=useNavigate();
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Handle submission logic here (API call)
-    console.log({ submissionType, subject, description, file });
+    setIsLoading(true);
+
+    try {
+      const data = new FormData();
+      data.append("submissionType", submissionType);
+      data.append("subject", subject);
+      data.append("description", description);
+      if (file) {
+        data.append("media", file);
+      }
+
+      const res = await axios.post(
+        `${API_BASE_URL}/complaint/createComplaint`,
+        data,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+            Authorization: `Bearer ${token}`,
+          },
+          withCredentials: true,
+        }
+      );
+
+      console.log("Complaint Response:", res.data);
+      alert("Complaint registered successfully!");
+
+      // Reset form
+      setSubmissionType("public");
+      setSubject("");
+      setDescription("");
+      setFile(null);
+
+      setTimeout(()=>{
+        navigate('/userDashboard');
+      },1000)
+
+    } catch (error) {
+      console.error("Error submitting complaint:", error.response?.data || error.message);
+      alert("Something went wrong!");
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
-    <div className="max-w-md mx-auto p-6 bg-white shadow-lg rounded-2xl">
-      <h2 className="text-2xl font-bold mb-6 text-gray-800">Submit Complaint</h2>
+    <div className="flex justify-center mt-20">
+      <form
+        onSubmit={handleSubmit}
+        className="bg-white shadow-lg p-6 rounded-lg w-full max-w-md"
+      >
+        <h2 className="text-xl font-bold text-emerald-600 mb-4">Submit Complaint</h2>
 
-      {/* Submission Type */}
-      <div className="mb-6">
-        <p className="font-semibold mb-2 text-gray-700">Submission Type</p>
-        <div className="flex gap-4">
-          <button
-            type="button"
-            onClick={() => setSubmissionType("Public")}
-            className={`px-4 py-2 rounded-lg font-medium ${
-              submissionType === "Public"
-                ? "bg-blue-600 text-white"
-                : "bg-gray-200 text-gray-800"
-            }`}
+        {/* Submission Type */}
+        <div className="mb-4">
+          <label className="block mb-1 text-gray-700">Submission Type</label>
+          <select
+            value={submissionType}
+            onChange={(e) => setSubmissionType(e.target.value)}
+            className="w-full border px-3 py-2 rounded-lg"
           >
-            Public
-          </button>
-          <button
-            type="button"
-            onClick={() => setSubmissionType("Anonymous")}
-            className={`px-4 py-2 rounded-lg font-medium ${
-              submissionType === "Anonymous"
-                ? "bg-blue-600 text-white"
-                : "bg-gray-200 text-gray-800"
-            }`}
-          >
-            Anonymous
-          </button>
+            <option value="public">Public</option>
+            <option value="anonymous">Anonymous</option>
+          </select>
         </div>
-      </div>
 
-      {/* Complaint Details */}
-      <form onSubmit={handleSubmit} className="space-y-6">
-        <div>
-          <label className="block text-gray-700 font-semibold mb-1">
-            Subject
-          </label>
+        {/* Subject */}
+        <div className="mb-4">
+          <label className="block mb-1 text-gray-700">Subject</label>
           <input
             type="text"
             value={subject}
             onChange={(e) => setSubject(e.target.value)}
-            placeholder="Subject"
-            className="w-full border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full border px-3 py-2 rounded-lg"
             required
           />
         </div>
 
-        <div>
-          <label className="block text-gray-700 font-semibold mb-1">
-            Description
-          </label>
+        {/* Description */}
+        <div className="mb-4">
+          <label className="block mb-1 text-gray-700">Description</label>
           <textarea
             value={description}
             onChange={(e) => setDescription(e.target.value)}
-            placeholder="Description"
-            className="w-full border border-gray-300 rounded-lg p-3 h-32 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full border px-3 py-2 rounded-lg"
             required
-          ></textarea>
-        </div>
-
-        {/* Attachments */}
-        <div>
-          <label className="block text-gray-700 font-semibold mb-1">
-            Attachments (Optional)
-          </label>
-          <input
-            type="file"
-            accept="image/*,video/*"
-            onChange={handleFileChange}
-            className="w-full border-dashed border-2 border-gray-300 rounded-lg p-4 text-center cursor-pointer hover:border-blue-500"
           />
-          {file && <p className="mt-2 text-gray-600">{file.name}</p>}
         </div>
 
-        {/* Submit */}
+        {/* File Upload */}
+        <div className="mb-4">
+          <label className="block mb-1 text-gray-700">Upload Media</label>
+          <input type="file" onChange={(e) => setFile(e.target.files[0])} />
+        </div>
+
+        {/* Submit Button */}
         <button
           type="submit"
-          className="w-full bg-black text-white font-bold py-3 rounded-lg hover:bg-gray-800 transition"
+          disabled={isLoading}
+          className="w-full bg-emerald-600 text-white py-2 rounded-lg hover:bg-emerald-700"
         >
-          Submit Complaint
+          {isLoading ? "Submitting..." : "Submit Complaint"}
         </button>
       </form>
     </div>
   );
-};
+}
 
 export default ComplaintForm;
