@@ -2,7 +2,7 @@ import jwt from "jsonwebtoken";
 import { ApiError } from "../utils/ApiError.js";
 import User from "../models/user.models.js";
 
-// ✅ Verify JWT middleware
+// Verify JWT middleware
 const verifyJWT = async (req, res, next) => {
   try {
     const token =
@@ -26,11 +26,11 @@ const verifyJWT = async (req, res, next) => {
     req.user = user; // attach user
     next();
   } catch (err) {
-    next(new ApiError(401, "Unauthorized", err.message));
+    next(new ApiError(401, "Unauthorized hai bro", err.message));
   }
 };
 
-// ✅ Admin auth middleware
+//  Admin auth middleware
 const adminAuth = (req, res, next) => {
   if (!req.user) {
     throw new ApiError(401, "User not authenticated");

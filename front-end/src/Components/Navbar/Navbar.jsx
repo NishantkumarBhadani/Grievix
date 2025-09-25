@@ -21,7 +21,7 @@ function Navbar() {
   const navigateToLinks = [
     { name: "Dashboard", path: "/" },
     { name: "Submit Complaint", path: "/complaintForm" },
-    { name: "My Complaints", path: "/contact" },
+    { name: "My Complaints", path: "/mycomplaints" },
   ];
 
   // Logout function

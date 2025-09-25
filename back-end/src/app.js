@@ -25,5 +25,8 @@ app.use("/api/v1/users",userRouter);
 import complaintRouter from './routes/complaint.routes.js'
 app.use("/api/v1/complaint",complaintRouter);
 
+//adminUpdatesForComplaints
+import adminComplaintRouter from './routes/adminComplaintUpdates.routes.js'
+app.use("/api/v1/complaint",adminComplaintRouter)
 
 export {app}

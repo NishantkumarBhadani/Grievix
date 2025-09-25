@@ -48,5 +48,29 @@ const createComplaint= asyncHandler(async(req,res)=>{
         complaint
     })
 })
+//Get complaints registered by user
+const getMyComplaints=asyncHandler(async(req,res)=>{
+    const complaints=await Complaint.findAll({
+        where:{userId:req.user.id},
+        order:[["createdAt","DESC"]]
+    })
 
-export {createComplaint};
+    res.status(200).json({
+        success:true,
+        complaints,
+    })
+})
+
+//getAllComplaints for admin
+const getAllComplaints=asyncHandler(async(req,res)=>{
+    const complaints=await Complaint.findAll({
+        order:[["createdAt","DESC"]]
+    });
+
+    res.status(200).json({
+        success:true,
+        complaints,
+    })
+})
+
+export {createComplaint,getMyComplaints,getAllComplaints};

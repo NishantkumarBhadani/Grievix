@@ -1,7 +1,7 @@
 import Navbar from "./Components/Navbar/Navbar"
 import { createBrowserRouter,RouterProvider } from "react-router-dom"
 import Layout from "./Layout"
-import { LoginForm,SignUpForm,ComplaintForm } from "./Components"
+import { LoginForm,SignUpForm,ComplaintForm,MyComplaints} from "./Components"
 import {Provider} from 'react-redux'
 import { PersistGate } from "redux-persist/integration/react"
 import { store,persistor } from "./redux/app/store.js"
@@ -25,6 +25,10 @@ function App() {
         {
           path:"complaintForm",
           element:<ComplaintForm/>
+        },
+        {
+          path:"mycomplaints",
+          element:<MyComplaints/>
         }
       ]
     }

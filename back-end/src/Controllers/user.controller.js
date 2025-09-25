@@ -134,7 +134,7 @@ const logOut=asyncHandler(async(req,res)=>{
 
     return res
     .status(200)
-    .json(new ApiResponse(20,null,"Looged out successfully"));
+    .json(new ApiResponse(200,null,"Logged out successfully"));
 });
 
 export { registerUser, logInUser, logOut };
