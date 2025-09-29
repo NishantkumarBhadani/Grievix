@@ -1,4 +1,5 @@
 import React from "react";
+import {Link} from 'react-router-dom';
 
 function ComplaintCard({ complaint }) {
   return (
@@ -19,12 +20,12 @@ function ComplaintCard({ complaint }) {
         <p><strong>Submitted At:</strong> {new Date(complaint.createdAt).toLocaleString()}</p>
       </div>
 
-      <button
-        onClick={() => alert("Redirect to Show Status Page")}
-        className="mt-3 px-4 py-2 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700"
+       <Link
+        to={`/complaints/${complaint.id}/details`}
+        className="mt-3 inline-block bg-emerald-600 text-white px-4 py-2 rounded-md hover:bg-emerald-700"
       >
         Show Status
-      </button>
+      </Link>
     </div>
   );
 }

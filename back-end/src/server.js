@@ -6,6 +6,8 @@ dotenv.config({
     path:'./.env'
 });
 
+// console.log("JWT Secret at startup: ",process.env.JWT_ACCESS_SECRET)
+
 connectDB()
 .then(async ()=>{
     await sequelize.sync(); 

@@ -8,6 +8,13 @@ app.use(cors({
     origin:"http://localhost:5173",
     credentials:true
 }))
+// app.use(cors({
+//     origin: "http://localhost:5173",
+//     methods: ["GET", "POST", "PUT", "DELETE"],
+//     allowedHeaders: ["Content-Type", "Authorization"],
+//     credentials: true
+// }));
+
 
 //middlewares
 app.use(express.json({limit:"16kb"}))
@@ -27,6 +34,9 @@ app.use("/api/v1/complaint",complaintRouter);
 
 //adminUpdatesForComplaints
 import adminComplaintRouter from './routes/adminComplaintUpdates.routes.js'
-app.use("/api/v1/complaint",adminComplaintRouter)
+app.use("/api/v1/complaint",adminComplaintRouter);
+
+import userComplaintRouter from './routes/userComplaintDetails.routes.js'
+app.use("/api/v1/complaint",userComplaintRouter);
 
 export {app}

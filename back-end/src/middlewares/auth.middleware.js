@@ -9,15 +9,19 @@ const verifyJWT = async (req, res, next) => {
       req.cookies?.accessToken ||
       req.header("Authorization")?.replace("Bearer ", "");
 
+      // console.log("Incoming token:",token);
     if (!token) {
       throw new ApiError(401, "Access token missing");
     }
 
     const decoded = jwt.verify(token, process.env.JWT_ACCESS_SECRET);
 
+    // console.log("Decoded token:",decoded)
     const user = await User.findByPk(decoded.id, {
       attributes: { exclude: ["password", "refreshToken"] },
     });
+
+    console.log("User from db:",user?.id);
 
     if (!user) {
       throw new ApiError(401, "Invalid access token");
