@@ -5,5 +5,6 @@ import ComplaintForm from "./ComplaintForm/ComplaintForm";
 import MyComplaints from "./MyComplaints/MyComplaints";
 import ComplaintStatus from "./ComplaintStatus/ComplaintStatus";
 import AdminComplaints from "./AdminComplaints/AdminComplaints";
+import AdminDashboard from "./Dashboards/AdminDashboard";
 
-export {LoginForm,Navbar,SignUpForm,ComplaintForm,MyComplaints,ComplaintStatus,AdminComplaints}
+export {LoginForm,Navbar,SignUpForm,ComplaintForm,MyComplaints,ComplaintStatus,AdminComplaints,AdminDashboard}

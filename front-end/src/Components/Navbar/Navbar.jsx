@@ -27,7 +27,7 @@ function Navbar() {
 
   // Admin navigation links
   const adminLinks = [
-    { name: "Admin Dashboard", path: "/admin" },
+    { name: "Admin Dashboard", path: "/adminDashboard" },
     { name: "Manage Complaints", path: "/admin/complaints" },
     { name: "Analytics", path: "/admin/analytics" },
   ];
@@ -41,7 +41,7 @@ function Navbar() {
       await axios.post(`${API_BASE_URL}/users/logout`, {}, { withCredentials: true });
       dispatch(setToken(false));
       dispatch(setAdmin(false));
-      navigate(isAdmin ? "/admin/login" : "/login");
+      navigate("/login");
     } catch (err) {
       console.error("Logout failed:", err.response?.data || err.message);
     }
