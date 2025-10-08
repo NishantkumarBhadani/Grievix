@@ -2,6 +2,7 @@ import Complaint from "../models/complaint.model.js";
 import { uploadOnCloudinary } from "../utils/cloudinary.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
 import { ApiError } from "../utils/ApiError.js";
+import User from "../models/user.models.js";
 
 //Create Complaint
 const createComplaint= asyncHandler(async(req,res)=>{
@@ -62,15 +63,21 @@ const getMyComplaints=asyncHandler(async(req,res)=>{
 })
 
 //getAllComplaints for admin
-const getAllComplaints=asyncHandler(async(req,res)=>{
-    const complaints=await Complaint.findAll({
-        order:[["createdAt","DESC"]]
-    });
+const getAllComplaints = asyncHandler(async (req, res) => {
+  const complaints = await Complaint.findAll({
+    include: [
+      {
+        model: User,
+        as: "user", // MUST match the alias used in your association
+        attributes: ["id", "name", "email"],
+      },
+    ],
+    order: [["createdAt", "DESC"]],
+  });
 
-    res.status(200).json({
-        success:true,
-        complaints,
-    })
-})
-
+  res.status(200).json({
+    success: true,
+    data:complaints,
+  });
+});
 export {createComplaint,getMyComplaints,getAllComplaints};

@@ -39,12 +39,16 @@ function LoginForm() {
       if (res.data.success) {
         dispatch(setToken(true));
 
-        const user = res.data.data.user; // 👈 ye sahi path hai
+        const user = res.data.data.user; 
         if (user && user.role.toLowerCase() === "admin") {
           dispatch(setAdmin(true));
+          navigate("/admin/complaints")
+        }
+        else{
+          navigate("/complaintForm");
         }
 
-        navigate("/complaintForm");
+        
       }
 
       console.log("Login response:", res.data);
