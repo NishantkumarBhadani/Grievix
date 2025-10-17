@@ -20,7 +20,8 @@ function Navbar() {
 
   // User navigation links
   const userLinks = [
-    { name: "Dashboard", path: "/" },
+    {name:"Home",path:'/'},
+    { name: "Dashboard" },
     { name: "Submit Complaint", path: "/complaintForm" },
     { name: "My Complaints", path: "/mycomplaints" },
   ];

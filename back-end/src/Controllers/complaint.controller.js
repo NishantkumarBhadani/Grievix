@@ -4,6 +4,7 @@ import { asyncHandler } from "../utils/asyncHandler.js";
 import { ApiError } from "../utils/ApiError.js";
 import User from "../models/user.models.js";
 
+
 //Create Complaint
 const createComplaint= asyncHandler(async(req,res)=>{
     const {submissionType, subject, description} =req.body;
@@ -16,16 +17,17 @@ const createComplaint= asyncHandler(async(req,res)=>{
             const uploaded = await uploadOnCloudinary(req.file.path);
             console.log("Cloudinary response:", uploaded);
             
-            if(uploaded){
+            if(uploaded?.secure_url){
                 mediaUrl = uploaded.secure_url;
                 // console.log("Media URL:", mediaUrl);
             }
         } catch (error) {
             console.error("Cloudinary upload error:", error);
         }
-    } else {
-        console.log("No file received in request");
-    }
+    } 
+    // else {
+    //     console.log("No file received in request");
+    // }
 
     //user_id for public and anonyms
     const userId=submissionType==="anonymous" ? null :req.user?.id;
@@ -80,4 +82,5 @@ const getAllComplaints = asyncHandler(async (req, res) => {
     data:complaints,
   });
 });
+
 export {createComplaint,getMyComplaints,getAllComplaints};

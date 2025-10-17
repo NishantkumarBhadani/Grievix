@@ -39,4 +39,6 @@ app.use("/api/v1/complaint",adminComplaintRouter);
 import userComplaintRouter from './routes/userComplaintDetails.routes.js'
 app.use("/api/v1/complaint",userComplaintRouter);
 
+import escalationRouter from './routes/escalation.routes.js'
+app.use("/api/v1/complaint",escalationRouter);
 export {app}

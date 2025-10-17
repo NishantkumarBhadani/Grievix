@@ -3,7 +3,8 @@ import ComplaintCard from '../../utils/ComplaintCard'
 import axios from 'axios'
 import API_BASE_URL from '../../config/api'
 import { useSelector } from "react-redux"
-import { Filter, Search, RefreshCw, AlertCircle, FileText } from 'lucide-react'
+import { Filter, Search, RefreshCw, AlertCircle, FileText, LogIn, UserX } from 'lucide-react'
+import { useNavigate } from 'react-router-dom'
 
 function MyComplaints() {
     const [complaints, setComplaints] = useState([]);
@@ -13,6 +14,7 @@ function MyComplaints() {
     const [statusFilter, setStatusFilter] = useState('all');
     const [refreshing, setRefreshing] = useState(false);
     const token = useSelector((state) => state.auth.token);
+    const navigate = useNavigate();
 
     // Status options for filtering
     const statusOptions = [
@@ -24,6 +26,11 @@ function MyComplaints() {
 
     // Complaints fetching
     const fetchComplaints = async () => {
+        if (!token) {
+            setLoading(false);
+            return;
+        }
+
         setRefreshing(true);
         try {
             const res = await axios.get(`${API_BASE_URL}/complaint/mycomplaints`, {
@@ -63,6 +70,8 @@ function MyComplaints() {
     useEffect(() => {
         if (token) {
             fetchComplaints();
+        } else {
+            setLoading(false);
         }
     }, [token])
 
@@ -71,12 +80,77 @@ function MyComplaints() {
         return complaints.filter(complaint => complaint.status === status).length;
     };
 
+    // Handle login redirect
+    const handleLoginRedirect = () => {
+        navigate('/login');
+    };
+
+    // Not logged in state
+    if (!token && !loading) {
+        return (
+            <div className="min-h-screen bg-gray-50 pt-20 pb-8 px-4 sm:px-6 lg:px-8">
+                <div className="max-w-6xl mx-auto">
+                    <div className="text-center py-16 bg-white rounded-xl shadow-sm border border-gray-200">
+                        <div className="flex justify-center mb-6">
+                            <div className="w-20 h-20 bg-red-100 rounded-full flex items-center justify-center">
+                                <UserX className="h-10 w-10 text-red-600" />
+                            </div>
+                        </div>
+                        
+                        <h3 className="text-2xl font-bold text-gray-900 mb-4">
+                            Authentication Required
+                        </h3>
+                        
+                        <p className="text-gray-600 max-w-md mx-auto mb-2">
+                            You need to be logged in to view your complaints.
+                        </p>
+                        <p className="text-gray-500 max-w-md mx-auto mb-8">
+                            Please sign in to access your complaint history and track your submissions.
+                        </p>
+                        
+                        <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                            <button
+                                onClick={handleLoginRedirect}
+                                className="inline-flex items-center justify-center space-x-2 bg-emerald-600 text-white px-8 py-3 rounded-lg hover:bg-emerald-700 transition-colors font-medium"
+                            >
+                                <LogIn className="h-5 w-5" />
+                                <span>Sign In to Your Account</span>
+                            </button>
+                            
+                            <button
+                                onClick={() => navigate('/')}
+                                className="inline-flex items-center justify-center space-x-2 bg-gray-200 text-gray-700 px-8 py-3 rounded-lg hover:bg-gray-300 transition-colors font-medium"
+                            >
+                                <span>Go Back Home</span>
+                            </button>
+                        </div>
+                        
+                        <div className="mt-8 pt-6 border-t border-gray-200">
+                            <p className="text-sm text-gray-500">
+                                Don't have an account?{' '}
+                                <button
+                                    onClick={() => navigate('/register')}
+                                    className="text-emerald-600 hover:text-emerald-700 font-medium"
+                                >
+                                    Create one here
+                                </button>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        );
+    }
+
     if (loading) {
         return (
             <div className="min-h-screen bg-gray-50 pt-20 pb-8 px-4 sm:px-6 lg:px-8">
                 <div className="max-w-6xl mx-auto">
                     <div className="flex justify-center items-center min-h-64">
-                        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-emerald-600"></div>
+                        <div className="text-center">
+                            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-emerald-600 mx-auto mb-4"></div>
+                            <p className="text-gray-600">Loading your complaints...</p>
+                        </div>
                     </div>
                 </div>
             </div>

@@ -3,6 +3,25 @@ import ComplaintMessage from "../models/complaintMessage.model.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
 import { ApiError } from "../utils/ApiError.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
+import User from "../models/user.models.js";
+
+//getcomplaint
+const getComplaintById = asyncHandler(async (req, res) => {
+  const { complaintId } = req.params;
+
+  const complaint = await Complaint.findByPk(complaintId, {
+    include: [{ model: User, as: "user", attributes: ["id", "name", "email"] }],
+  });
+
+  if (!complaint) {
+    throw new ApiError(404, "Complaint not found");
+  }
+
+  res.status(200).json({
+    success: true,
+    data: complaint,
+  });
+});
 
 //Admin updates status of the complaint
 const updatecomplaintStatus=asyncHandler(async(req,res)=>{
@@ -39,4 +58,4 @@ const addComplaintMessage=asyncHandler(async(req,res)=>{
     .json(new ApiResponse(200,newMessage,"Message added successfully"))
 })
 
-export {updatecomplaintStatus,addComplaintMessage}
+export {updatecomplaintStatus,addComplaintMessage,getComplaintById}

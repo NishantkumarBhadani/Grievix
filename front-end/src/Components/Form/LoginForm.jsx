@@ -45,7 +45,7 @@ function LoginForm() {
           navigate("/admin/complaints")
         }
         else{
-          navigate("/complaintForm");
+          navigate("/");
         }
 
         

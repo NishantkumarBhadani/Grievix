@@ -6,5 +6,7 @@ import MyComplaints from "./MyComplaints/MyComplaints";
 import ComplaintStatus from "./ComplaintStatus/ComplaintStatus";
 import AdminComplaints from "./AdminComplaints/AdminComplaints";
 import AdminDashboard from "./Dashboards/AdminDashboard";
-
-export {LoginForm,Navbar,SignUpForm,ComplaintForm,MyComplaints,ComplaintStatus,AdminComplaints,AdminDashboard}
+import HeroSection from "./HeroSection/HeroSection";
+import Footer from "./Footer/Footer";
+import EscalateComplaint from "./EsclateComplaint/EscalataComplaint";
+export {LoginForm,Navbar,SignUpForm,ComplaintForm,MyComplaints,ComplaintStatus,AdminComplaints,AdminDashboard,HeroSection,Footer,EscalateComplaint}
