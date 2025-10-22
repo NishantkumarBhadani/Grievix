@@ -21,7 +21,7 @@ function Navbar() {
   // User navigation links
   const userLinks = [
     {name:"Home",path:'/'},
-    { name: "Dashboard" },
+    // { name: "Dashboard" },
     { name: "Submit Complaint", path: "/complaintForm" },
     { name: "My Complaints", path: "/mycomplaints" },
   ];
@@ -30,7 +30,7 @@ function Navbar() {
   const adminLinks = [
     { name: "Admin Dashboard", path: "/adminDashboard" },
     { name: "Manage Complaints", path: "/admin/complaints" },
-    { name: "Analytics", path: "/admin/analytics" },
+    { name: "Analytics", path: "/admin/reports" },
   ];
 
   // Determine which links to show based on user role

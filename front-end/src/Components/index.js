@@ -9,4 +9,5 @@ import AdminDashboard from "./Dashboards/AdminDashboard";
 import HeroSection from "./HeroSection/HeroSection";
 import Footer from "./Footer/Footer";
 import EscalateComplaint from "./EsclateComplaint/EscalataComplaint";
-export {LoginForm,Navbar,SignUpForm,ComplaintForm,MyComplaints,ComplaintStatus,AdminComplaints,AdminDashboard,HeroSection,Footer,EscalateComplaint}
+import AdminReports from "./AdminReports/AdminReports";
+export {LoginForm,Navbar,SignUpForm,ComplaintForm,MyComplaints,ComplaintStatus,AdminComplaints,AdminDashboard,HeroSection,Footer,EscalateComplaint,AdminReports}
