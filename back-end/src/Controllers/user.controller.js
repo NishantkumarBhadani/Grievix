@@ -60,7 +60,7 @@ const registerUser = asyncHandler(async (req, res) => {
 const logInUser = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
 
-  console.log(req.body);
+  // console.log(req.body);
 
   if (!email || !password) {
     throw new ApiError("Email and password is required", 400);
@@ -70,8 +70,8 @@ const logInUser = asyncHandler(async (req, res) => {
     throw new ApiError(404, "User not found");
   }
 
-  console.log("Stored hash:", user.password);
-console.log("Login password:", password);
+//   console.log("Stored hash:", user.password);
+// console.log("Login password:", password);
 
   //verifying password
   const isPasswordCorrect = await bcrypt.compare(password, user.password);

@@ -17,9 +17,9 @@ function LoginForm() {
 
   //Checking for the tokens
   const token = useSelector((state) => state.auth.token);
-  console.log("Redex user token:", token);
+  // console.log("Redex user token:", token);
   const tokenAdmin = useSelector((state) => state.admin.token);
-  console.log("Redex adminuser token:", tokenAdmin);
+  // console.log("Redex adminuser token:", tokenAdmin);
 
   const handleChange = (e) => {
     setFormData({ ...formdata, [e.target.name]: e.target.value });
