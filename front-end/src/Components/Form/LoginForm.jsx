@@ -51,7 +51,7 @@ function LoginForm() {
         
       }
 
-      console.log("Login response:", res.data);
+      // console.log("Login response:", res.data);
     } catch (error) {
       console.log("Login Failed", error.response?.data || error.message);
     } finally {
