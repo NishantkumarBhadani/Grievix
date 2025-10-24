@@ -5,7 +5,7 @@ import cookieParser from 'cookie-parser';
 const app=express();
 
 app.use(cors({
-    origin:"https://grievix-frontend.onrender.com",
+    origin:"https://grievix.onrender.com",
     credentials:true
 }))
 // app.use(cors({
